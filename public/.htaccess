@@ -1,3 +1,8 @@
-# Permite listagem/leitura publica de arquivos
+# Permite leitura pública de arquivos e define o documento padrão
 Options -Indexes +FollowSymLinks
-DirectoryIndex index.html
+DirectoryIndex index.html pt.html index.php
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^$ /pt/ [R=301,L]
+</IfModule>
