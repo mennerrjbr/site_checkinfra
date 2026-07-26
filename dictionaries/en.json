@@ -1,0 +1,54 @@
+{
+  "title": "Checkinfra Setup (EN)",
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "contact": "Contact"
+  },
+  "buttons": {
+    "contactUs": "Contact Us",
+    "talkExpert": "Talk to an Expert",
+    "ourServices": "Our Services"
+  },
+  "hero": {
+    "title": "Security Without Limits, Tailored Protection",
+    "subtitle": "Protecting what matters most with integrated infrastructure and IT solutions."
+  },
+  "about": {
+    "title": "About Checkinfra",
+    "text": "With more than 2 years of consolidated experience in electronic security and strategic partnerships with giants like Intelbras and Monuv, we create integrated solutions focused on innovation, continuous protection, and peace of mind for your business."
+  },
+  "compliance": {
+    "title": "Our Commitment",
+    "lgpdTitle": "Data Protection (LGPD)",
+    "lgpdText": "Absolute rigor with the privacy and security of your information.",
+    "ecoTitle": "Sustainability",
+    "ecoText": "Optimized operations to minimize environmental impact.",
+    "acessTitle": "Accessibility",
+    "acessText": "Technology and services designed for everyone."
+  },
+  "services": {
+    "title": "Our Services",
+    "cftvTitle": "Camera Monitoring (CCTV)",
+    "cftvDesc": "Advanced monitoring solutions to guarantee security and total control 24/7.",
+    "alarmeTitle": "Intrusion Alarm System",
+    "alarmeDesc": "Modern sensors and quick response to detect and prevent intrusions to your property.",
+    "acessoTitle": "Access Control",
+    "acessoDesc": "Smart and biometric systems to manage entries and exits in a secure and auditable manner.",
+    "more": "Learn more"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Ready to shield your business? Our team of specialists is at your disposal.",
+    "fields": {
+      "name": "Name",
+      "phone": "Phone/WhatsApp",
+      "email": "E-mail",
+      "city": "City",
+      "message": "Message",
+      "submit": "Send Message"
+    }
+  },
+  "footer": "© 2026 Checkinfra Electronic Security. All rights reserved."
+}

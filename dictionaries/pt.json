@@ -1,0 +1,54 @@
+{
+  "title": "Checkinfra Setup (PT)",
+  "nav": {
+    "home": "Início",
+    "about": "Sobre",
+    "services": "Serviços",
+    "contact": "Contato"
+  },
+  "buttons": {
+    "contactUs": "Fale Conosco",
+    "talkExpert": "Falar com Especialista",
+    "ourServices": "Nossos Serviços"
+  },
+  "hero": {
+    "title": "Segurança Sem Limites, Proteção Sob Medida",
+    "subtitle": "Protegendo o que é mais importante com soluções integradas de infraestrutura e TI."
+  },
+  "about": {
+    "title": "Sobre a Checkinfra",
+    "text": "Com mais de 2 anos de experiência consolidada em segurança eletrônica e parcerias estratégicas com gigantes como Intelbras e Monuv, criamos soluções integradas focadas em inovação, proteção contínua e tranquilidade para o seu negócio."
+  },
+  "compliance": {
+    "title": "Nosso Compromisso",
+    "lgpdTitle": "Proteção de Dados (LGPD)",
+    "lgpdText": "Rigor absoluto com a privacidade e segurança das suas informações.",
+    "ecoTitle": "Sustentabilidade",
+    "ecoText": "Operações otimizadas para minimizar o impacto ambiental.",
+    "acessTitle": "Acessibilidade",
+    "acessText": "Tecnologia e serviços desenhados para todos."
+  },
+  "services": {
+    "title": "Nossos Serviços",
+    "cftvTitle": "Monitoramento por Câmera (CFTV)",
+    "cftvDesc": "Soluções avançadas de monitoramento para garantir segurança e controle total 24/7.",
+    "alarmeTitle": "Sistema de Alarme de Intrusão",
+    "alarmeDesc": "Sensores modernos e resposta rápida para detectar e prevenir invasões ao seu patrimônio.",
+    "acessoTitle": "Controle de Acesso",
+    "acessoDesc": "Sistemas inteligentes e biométricos para gerenciar entradas e saídas de forma segura e auditável.",
+    "more": "Saiba mais"
+  },
+  "contact": {
+    "title": "Fale Conosco",
+    "subtitle": "Pronto para blindar o seu negócio? Nossa equipe de especialistas está à disposição.",
+    "fields": {
+      "name": "Nome",
+      "phone": "Telefone/WhatsApp",
+      "email": "E-mail",
+      "city": "Cidade",
+      "message": "Mensagem",
+      "submit": "Enviar Mensagem"
+    }
+  },
+  "footer": "© 2026 Checkinfra Segurança Eletrônica. Todos os direitos reservados."
+}

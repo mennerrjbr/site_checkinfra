@@ -1,0 +1,243 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+header {
+    background: #004080;
+    color: #fff;
+    padding: 30px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end; /* Alinha o menu à direita */
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    margin-left: 15px;
+}
+
+nav ul.menu li a,
+nav ul.language-switch li a {
+    text-decoration: none; /* Remove sublinhado */
+    padding: 10px 15px; /* Espaçamento interno */
+    border-radius: 4px; /* Bordas arredondadas */
+    background-color: transparent; /* Fundo transparente por padrão */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transições suaves */
+}
+
+nav ul.menu li a {
+    color: #fff; /* Cor do texto branca para contraste */
+}
+
+nav ul.menu li a:hover {
+    background-color: #00509e; /* Cor de fundo ao passar o mouse */
+    color: #e6f2ff; /* Cor do texto ao passar o mouse */
+}
+
+nav ul.language-switch li a {
+    color: #fff; /* Cor do texto branca para contraste */
+}
+
+nav ul.language-switch li a:hover {
+    background-color: #00509e; /* Cor de fundo ao passar o mouse */
+    color: #e6f2ff; /* Cor do texto ao passar o mouse */
+}
+
+.banner1 {
+    background: #004080 url('imagens/logo.png') no-repeat center center;
+    background-size: cover;
+    padding: 40px 160px;
+    text-align: center;
+}
+
+.banner2 {
+    background: #ebfdff  url('caminho/para/sua/imagem.jpg') no-repeat center center;
+    background-size: cover;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.about, .contact, .services, .commitment {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.services h2, .commitment h2 {
+    margin-bottom: 30px;
+}
+
+.services-container, .commitment-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.service-box, .commitment-box {
+    background: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 20px;
+    width: 200px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.service-box h3, .commitment-box h3 {
+    margin-top: 0;
+}
+
+.contact form {
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.contact form div {
+    margin-bottom: 15px;
+}
+
+.contact label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.contact input, .contact textarea {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.contact button {
+    background: #004080;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.contact button:hover {
+    background: #003366;
+}
+
+footer {
+    background: #004080;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+
+footer p {
+    margin: 0;
+}
+
+.whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 20px;
+    right: 20px;
+    background-color: #25d366;
+    color: #fff;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 2px 2px 3px #999;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease;
+    animation: pulse 3s infinite;
+}
+
+.whatsapp-float img {
+    width: 35px;
+    height: 35px;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Responsividade para telas pequenas */
+@media screen and (max-width: 800px) {
+    nav ul.menu {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    nav ul.menu {
+        flex-direction: column;
+        width: 100%;
+        padding: 0;
+    }
+
+    nav ul.menu li {
+        margin: 5px 0;
+    }
+
+    .services-container, .commitment-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .service-box, .commitment-box {
+        width: 90%;
+    }
+
+    .banner {
+        padding: 40px 10px;
+    }
+
+    .contact form {
+        width: 100%;
+        padding: 0 20px;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .banner, .about, .contact, .services, .commitment {
+        padding: 20px 10px;
+    }
+
+    .service-box, .commitment-box {
+        width: 95%;
+    }
+
+    .banner {
+        padding: 20px 10px;
+    }
+}
+
+.banner img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
