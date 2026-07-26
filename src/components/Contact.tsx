@@ -1,5 +1,5 @@
 /* 
-ARQUITETURA DE WEBHOOK: O webhook de destino deve estar ATIVO e não apenas no status de 'escuta' (listening). Se o webhook não estiver ativo, o workflow correspondente executará apenas uma vez.
+ARQUITETURA DE WEBHOOK: O webhook de destino no n8n deve estar ATIVO (Production) para receber os disparos contínuos. O formulário envia o payload em formato JSON.
 */
 
 'use client';
@@ -40,10 +40,21 @@ export default function Contact({ lang, dict }: ContactProps) {
     message: string;
   } | null>(null);
 
-  // Submissão do formulário para o Webhook
+  // Submissão do formulário para o Webhook do n8n
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFeedback(null);
+
+    const WEBHOOK_URL = process.env.NEXT_PUBLIC_WEBHOOK_URL || '';
+
+    // Validação de campos obrigatórios
+    if (!name.trim() || !phone.trim() || !email.trim() || !city.trim() || !message.trim()) {
+      setFeedback({
+        type: 'error',
+        message: 'Por favor, preencha todos os campos obrigatórios.',
+      });
+      return;
+    }
 
     // Validação cruzada de e-mail
     if (email.trim().toLowerCase() !== emailConfirm.trim().toLowerCase()) {
@@ -54,20 +65,27 @@ export default function Contact({ lang, dict }: ContactProps) {
       return;
     }
 
+    if (!WEBHOOK_URL) {
+      console.warn('Variável NEXT_PUBLIC_WEBHOOK_URL não configurada no ambiente.');
+    }
+
     setIsSubmitting(true);
-    const webhookUrl = process.env.NEXT_PUBLIC_WEBHOOK_URL || '/api/webhook';
 
     try {
-      const formData = new FormData();
-      formData.append('name', name);
-      formData.append('phone', phone);
-      formData.append('email', email);
-      formData.append('city', city);
-      formData.append('message', message);
+      const payload = {
+        name: name.trim(),
+        phone: phone.trim(),
+        email: email.trim(),
+        city: city.trim(),
+        message: message.trim(),
+      };
 
-      const response = await fetch(webhookUrl, {
+      const response = await fetch(WEBHOOK_URL, {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
@@ -76,7 +94,7 @@ export default function Contact({ lang, dict }: ContactProps) {
 
       setFeedback({
         type: 'success',
-        message: 'Formulário enviado com sucesso! Nossa equipe entrará em contato em breve.',
+        message: 'Formulário enviado com sucesso! Sua mensagem foi recebida por nossa equipe.',
       });
 
       // Limpeza dos campos após sucesso
@@ -87,7 +105,7 @@ export default function Contact({ lang, dict }: ContactProps) {
       setCity('');
       setMessage('');
     } catch (error) {
-      console.error('Erro na submissão do Webhook:', error);
+      console.error('Erro na submissão do Webhook n8n:', error);
       setFeedback({
         type: 'error',
         message:
