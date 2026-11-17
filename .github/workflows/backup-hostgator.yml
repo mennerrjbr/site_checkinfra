@@ -36,6 +36,14 @@ jobs:
             exit 1
           fi
 
+          # A pasted username sometimes picks up a trailing newline. Do not print it.
+          FTP_USERNAME="${FTP_USERNAME//$'\r'/}"
+          FTP_USERNAME="${FTP_USERNAME//$'\n'/}"
+          FTP_USERNAME="${FTP_USERNAME#"${FTP_USERNAME%%[![:space:]]*}"}"
+          FTP_USERNAME="${FTP_USERNAME%"${FTP_USERNAME##*[![:space:]]}"}"
+          FTP_PASSWORD="${FTP_PASSWORD//$'\r'/}"
+          FTP_PASSWORD="${FTP_PASSWORD%$'\n'}"
+
           mkdir -p ./backup/public_html
 
           # Settings are loaded before connect. The mirror is download-only:
@@ -67,7 +75,8 @@ jobs:
             status=$?
             set -e
             cat /tmp/lftp.out
-            if [ "$status" -ne 0 ] && [ "$mode" = "tls" ] && grep -qiE 'certificate verification|gnutls|handshake|Login failed|Connection refused|timed out|Could not connect|Name or service not known' /tmp/lftp.out; then
+            # 530 is an authentication rejection, not a TLS failure. Do not retry it.
+            if [ "$status" -ne 0 ] && [ "$mode" = "tls" ] && grep -qiE 'certificate verification|gnutls|handshake|Connection refused|timed out|Could not connect|Name or service not known' /tmp/lftp.out && ! grep -q '530' /tmp/lftp.out; then
               echo "TLS FTP failed; falling back to plain FTP without SSL (download-only)."
               mode=plain
               write_rc no no
@@ -80,11 +89,8 @@ jobs:
             return "$status"
           }
 
-          echo "Read-only top-level listing of FTP root:"
-          run_lftp "cls -la /; bye" || true
-
           echo "Starting download-only mirror of / into ./backup/public_html/."
-          if ! run_lftp "mirror --verbose --parallel=4 / ./backup/public_html/; bye"; then
+          if ! run_lftp "cls -la /; mirror --verbose --parallel=4 / ./backup/public_html/; bye"; then
             echo "Download-only mirror failed."
             exit 1
           fi
