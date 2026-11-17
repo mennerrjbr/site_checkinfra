@@ -1,0 +1,101 @@
+name: Backup HostGator
+
+# Read-only backup of the live site. This workflow must never upload,
+# delete, rename, or modify anything on the FTP server.
+on:
+  push:
+    branches:
+      - backup-hostgator-2026-11-17
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Install lftp
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y lftp zip
+          lftp --version
+
+      - name: Download website read-only
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${FTP_SERVER}" ] || [ -z "${FTP_USERNAME}" ] || [ -z "${FTP_PASSWORD}" ]; then
+            echo "FTP credentials are not available to this workflow."
+            exit 1
+          fi
+
+          mkdir -p ./backup/checkinfra.com.br
+
+          # Settings are loaded before connect. The mirror is download-only:
+          # do not add --reverse/-R, put, rm, or mv.
+          write_rc() {
+            cat > "${HOME}/.lftprc" <<EOF
+          set cmd:fail-exit yes
+          set ftp:ssl-allow $1
+          set ssl:verify-certificate no
+          set ftp:ssl-protect-data $2
+          set ftp:ssl-protect-list $2
+          set ftp:passive-mode true
+          set ftp:prefer-epsv false
+          set ftp:list-options -a
+          set dns:order "inet"
+          set net:timeout 60
+          set net:max-retries 2
+          set net:reconnect-interval-base 5
+          EOF
+          }
+
+          mirror_site() {
+            lftp -u "$FTP_USERNAME,$FTP_PASSWORD" "$FTP_SERVER" -e "mirror --verbose --parallel=4 /checkinfra.com.br/ ./backup/checkinfra.com.br/; bye"
+          }
+
+          echo "Starting download-only FTPS mirror of /checkinfra.com.br/."
+          write_rc yes yes
+          if mirror_site; then
+            echo "FTPS mirror completed."
+          else
+            echo "TLS FTP failed; falling back to plain FTP without SSL (download-only)."
+            write_rc no no
+            if ! mirror_site; then
+              echo "Plain FTP mirror failed. Listing remote root names only."
+              lftp -u "$FTP_USERNAME,$FTP_PASSWORD" "$FTP_SERVER" -e "cls -1; bye" || true
+              exit 1
+            fi
+          fi
+
+          file_count="$(find ./backup/checkinfra.com.br -type f | wc -l)"
+          size_bytes="$(du -sb ./backup/checkinfra.com.br | awk '{print $1}')"
+          echo "Downloaded file count: ${file_count}"
+          echo "Downloaded size bytes: ${size_bytes}"
+          echo "Top-level entries:"
+          find ./backup/checkinfra.com.br -mindepth 1 -maxdepth 1 -printf '%f\n' | sort
+          if [ "${file_count}" -eq 0 ]; then
+            echo "No files were downloaded from /checkinfra.com.br/."
+            exit 1
+          fi
+
+      - name: Save recursive listing
+        run: ls -laR backup > backup/listing.txt
+
+      - name: Create zip archive
+        run: zip -r backup_17_11_26.zip backup
+
+      - name: Upload backup artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: backup_17_11_26
+          path: backup_17_11_26.zip
+          retention-days: 7
+          if-no-files-found: error
