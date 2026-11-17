@@ -70,6 +70,7 @@ export type Plan = {
   period: string
   summary: string
   items: readonly string[]
+  note?: string
   message: string
 }
 
@@ -94,9 +95,9 @@ export const plans: readonly Plan[] = [
     price: "R$ 350",
     fromPrice: false,
     period: "/mês",
-    summary: "Para quem precisa de mais câmeras e de visita todo mês.",
+    summary: "Inclui o Essencial, com câmeras e alarme no mesmo contrato.",
     items: [
-      "Até 16 câmeras",
+      "Até 16 câmeras e alarme",
       "Visita preventiva mensal",
       "Mão de obra corretiva incluída",
     ],
@@ -108,12 +109,14 @@ export const plans: readonly Plan[] = [
     price: "R$ 550",
     fromPrice: true,
     period: "/mês",
-    summary: "Para o conjunto de câmeras, alarme, controle de acesso e rede.",
+    summary: "Inclui o Padrão, com até 32 câmeras, alarme, controle de acesso e rede.",
     items: [
-      "Câmeras, alarme, controle de acesso e rede",
+      "Até 32 câmeras (16 a mais que o Padrão) e alarme",
+      "Controle de acesso e rede",
       "Visita preventiva mensal",
       "Prioridade no atendimento",
     ],
+    note: "O valor sobe em relação ao Padrão porque inclui o controle de acesso; o preço final depende do controle de acesso do local.",
     message: messages.completo,
   },
 ]
@@ -312,17 +315,17 @@ export const servicePages: Record<"cameras" | "alarmes" | "acesso", ServicePageC
       {
         href: "/planos#essencial",
         name: "Essencial",
-        text: "Até 8 câmeras. Visita preventiva a cada 3 meses e suporte remoto. R$ 180 por mês.",
+        text: "Até 8 câmeras, ou 1 sistema de alarme no lugar delas. Visita preventiva a cada 3 meses e suporte remoto. R$ 180 por mês.",
       },
       {
         href: "/planos#padrao",
         name: "Padrão",
-        text: "Até 16 câmeras. Visita preventiva mensal e mão de obra corretiva incluída. R$ 350 por mês.",
+        text: "Inclui o Essencial, com até 16 câmeras e alarme. Visita preventiva mensal e mão de obra corretiva incluída. R$ 350 por mês.",
       },
       {
         href: "/planos#completo",
         name: "Completo",
-        text: "Câmeras junto com alarme, controle de acesso e rede. Visita mensal e prioridade no atendimento. A partir de R$ 550 por mês.",
+        text: "Inclui o Padrão e chega a 32 câmeras, 16 a mais que o Padrão, com alarme, controle de acesso e rede. Visita mensal e prioridade no atendimento. A partir de R$ 550 por mês. O valor sobe em relação ao Padrão porque inclui o controle de acesso; o preço final depende do controle de acesso do local.",
       },
     ],
   },
@@ -351,17 +354,22 @@ export const servicePages: Record<"cameras" | "alarmes" | "acesso", ServicePageC
     ],
     planTitle: "Qual plano combina",
     planIntro:
-      "No plano Essencial, 1 sistema de alarme entra no lugar do conjunto de câmeras: o texto do plano é “até 8 câmeras ou 1 sistema de alarme”. O plano Padrão, como está publicado, descreve até 16 câmeras.",
+      "No Essencial, 1 sistema de alarme entra no lugar das câmeras. O Padrão inclui o Essencial e reúne até 16 câmeras e alarme. O Completo inclui o Padrão, chega a 32 câmeras e soma controle de acesso e rede.",
     planFit: [
       {
         href: "/planos#essencial",
         name: "Essencial",
-        text: "1 sistema de alarme. Visita preventiva a cada 3 meses e suporte remoto. R$ 180 por mês.",
+        text: "1 sistema de alarme, no lugar das câmeras. Visita preventiva a cada 3 meses e suporte remoto. R$ 180 por mês.",
+      },
+      {
+        href: "/planos#padrao",
+        name: "Padrão",
+        text: "Inclui o Essencial, com até 16 câmeras e alarme. Visita preventiva mensal e mão de obra corretiva incluída. R$ 350 por mês.",
       },
       {
         href: "/planos#completo",
         name: "Completo",
-        text: "Alarme junto com câmeras, controle de acesso e rede. Visita mensal e prioridade no atendimento. A partir de R$ 550 por mês.",
+        text: "Inclui o Padrão e chega a 32 câmeras, 16 a mais que o Padrão, com alarme, controle de acesso e rede. Visita mensal e prioridade no atendimento. A partir de R$ 550 por mês. O valor sobe em relação ao Padrão porque inclui o controle de acesso; o preço final depende do controle de acesso do local.",
       },
     ],
   },
@@ -390,12 +398,12 @@ export const servicePages: Record<"cameras" | "alarmes" | "acesso", ServicePageC
     ],
     planTitle: "Qual plano combina",
     planIntro:
-      "Controle de acesso aparece no plano Completo, junto com câmeras, alarme e rede. Os planos Essencial e Padrão não descrevem controle de acesso.",
+      "O controle de acesso entra no plano Completo. Esse plano inclui o Padrão, chega a 32 câmeras e soma alarme, controle de acesso e rede.",
     planFit: [
       {
         href: "/planos#completo",
         name: "Completo",
-        text: "Câmeras, alarme, controle de acesso e rede. Visita preventiva mensal e prioridade no atendimento. A partir de R$ 550 por mês.",
+        text: "Inclui o Padrão e chega a 32 câmeras, 16 a mais que o Padrão, com alarme, controle de acesso e rede. Visita preventiva mensal e prioridade no atendimento. A partir de R$ 550 por mês. O valor sobe em relação ao Padrão porque inclui o controle de acesso; o preço final depende do controle de acesso do local.",
       },
     ],
   },
@@ -470,14 +478,14 @@ export function jsonLdFor(pathname: string): JsonLd {
           priceCurrency: "BRL",
           url: `${company.url}/planos#padrao`,
           description:
-            "R$ 350 por mês. Contrato de 12 meses. Até 16 câmeras. Visita preventiva mensal. Mão de obra corretiva incluída. Peças cobradas à parte. Atendimento em horário comercial.",
+            "R$ 350 por mês. Contrato de 12 meses. Inclui o Essencial, com até 16 câmeras e alarme. Visita preventiva mensal. Mão de obra corretiva incluída. Peças cobradas à parte. Atendimento em horário comercial.",
         },
         {
           "@type": "Offer",
           name: "Plano Completo",
           url: `${company.url}/planos#completo`,
           description:
-            "A partir de R$ 550 por mês. Contrato de 12 meses. Câmeras, alarme, controle de acesso e rede. Visita preventiva mensal. Prioridade no atendimento. Peças cobradas à parte. Atendimento em horário comercial.",
+            "A partir de R$ 550 por mês. Contrato de 12 meses. Inclui o Padrão, com até 32 câmeras (16 a mais que o Padrão), alarme, controle de acesso e rede. Visita preventiva mensal. Prioridade no atendimento. O valor sobe em relação ao Padrão porque inclui o controle de acesso; o preço final depende do controle de acesso do local. Peças cobradas à parte. Atendimento em horário comercial.",
         },
       ],
     },

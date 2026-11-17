@@ -21,6 +21,7 @@ export function PlanCards({ showPageLink = false }: { showPageLink?: boolean }) 
             <span className="text-base font-medium text-muted">{plan.period}</span>
           </p>
           <p className="mt-3 text-sm leading-relaxed text-mist">{plan.summary}</p>
+          {plan.note ? <p className="mt-3 text-sm leading-relaxed text-mist">{plan.note}</p> : null}
           <ul className="mt-5 flex flex-1 flex-col gap-2 text-sm leading-relaxed text-white">
             {plan.items.map((item) => (
               <li key={item} className="flex gap-2">

@@ -28,6 +28,14 @@ npm run build
 npm run preview
 ```
 
+## Planos de manutenção
+
+Contrato de 12 meses. Peças à parte. Atendimento em horário comercial. Cada plano inclui o anterior.
+
+- Essencial, R$ 180/mês: até 8 câmeras ou 1 sistema de alarme. Visita preventiva a cada 3 meses. Suporte remoto.
+- Padrão, R$ 350/mês: inclui o Essencial, com câmeras (até 16) e alarme. Visita preventiva mensal. Mão de obra corretiva incluída.
+- Completo, a partir de R$ 550/mês: inclui o Padrão, com até 32 câmeras (16 a mais que o Padrão), alarme, controle de acesso e rede. Visita preventiva mensal. Prioridade no atendimento. O valor sobe em relação ao Padrão porque inclui o controle de acesso; o preço final depende do controle de acesso do local.
+
 ## Deploy
 
 O workflow `.github/workflows/deploy.yml` só roda em push na `main` (ou `workflow_dispatch`). Ele faz `npm ci`, `npm run build` e envia `dist/` por FTP para a raiz da conta (que já é o `public_html`).

@@ -114,7 +114,7 @@ export function Home() {
       <section className="mx-auto max-w-6xl px-5 py-16 md:py-20">
         <h2 className="text-3xl font-semibold tracking-tight">Planos de manutenção</h2>
         <p className="mt-3 max-w-2xl text-base leading-relaxed text-mist">
-          Contrato de 12 meses. Peças cobradas à parte. Atendimento em horário comercial.
+          Contrato de 12 meses. Cada plano inclui o anterior. Peças cobradas à parte. Atendimento em horário comercial.
         </p>
         <div className="mt-8">
           <PlanCards showPageLink />
