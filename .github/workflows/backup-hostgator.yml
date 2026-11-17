@@ -81,7 +81,20 @@ jobs:
           }
 
           echo "Read-only listing of the FTP login directory:"
-          run_lftp "pwd; cls -la; bye" || true
+          run_lftp "cls -la; bye" || true
+          echo "Read-only names in the parent directory:"
+          run_lftp "cls -1 .. > /tmp/parent-names.txt; bye" || true
+          if [ -f /tmp/parent-names.txt ]; then
+            sed -i 's/\r$//' /tmp/parent-names.txt
+            parent_count="$(grep -c . /tmp/parent-names.txt || true)"
+            echo "Parent entry count: ${parent_count}"
+            if [ "${parent_count}" -le 40 ]; then
+              sed 's/^/  /' /tmp/parent-names.txt
+            else
+              echo "Parent has many entries; showing likely site names only."
+              grep -E 'checkinfra|public_html|^www$|htdocs|httpdocs' /tmp/parent-names.txt || true
+            fi
+          fi
 
           # /checkinfra.com.br is the documented site folder. Older deploys
           # used public_html. Try those, then the login directory itself.
@@ -119,6 +132,12 @@ jobs:
             selected="/public_html/"
           elif try_mirror "www/"; then
             selected="www/"
+          elif try_mirror "../checkinfra.com.br/"; then
+            selected="../checkinfra.com.br/"
+          elif try_mirror "../public_html/"; then
+            selected="../public_html/"
+          elif try_mirror "../www/"; then
+            selected="../www/"
           elif try_mirror "./" "--exclude ^mail/ --exclude ^logs/ --exclude ^tmp/ --exclude ^\\.cpanel/ --exclude ^public_ftp/ --exclude ^\\.trash/ --exclude ^\\.spamassassin/"; then
             selected="./"
           else
