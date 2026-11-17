@@ -1,4 +1,3 @@
-import { HoursNote } from "../components/HoursNote.tsx"
 import { IconWhatsApp } from "../components/Icons.tsx"
 import { PageIntro } from "../components/PageIntro.tsx"
 import { PlanCards } from "../components/PlanCards.tsx"
@@ -36,9 +35,6 @@ export function Planos() {
             no atendimento. O valor começa em R$ 550 por mês. O valor sobe em relação ao Padrão
             porque inclui o controle de acesso; o preço final depende do controle de acesso do local.
           </p>
-        </div>
-        <div className="mt-10">
-          <HoursNote />
         </div>
         <div className="mt-10">
           <WhatsAppLink href={waLink(messages.planos)} className={primaryButtonClass}>

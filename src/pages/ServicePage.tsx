@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom"
-import { HoursNote } from "../components/HoursNote.tsx"
 import { IconWhatsApp } from "../components/Icons.tsx"
 import { PageIntro } from "../components/PageIntro.tsx"
 import { Seo } from "../components/Seo.tsx"
@@ -54,7 +53,6 @@ function ServiceView({ service }: { service: ServicePageContent }) {
             ))}
           </ul>
         </section>
-        <HoursNote />
         <WhatsAppLink href={waLink(service.message)} className={primaryButtonClass}>
           <IconWhatsApp className="h-4 w-4" />
           Pedir análise gratuita

@@ -125,7 +125,6 @@ export function Layout() {
           <div>
             <h2 className="text-sm font-semibold tracking-wide text-white">Contato</h2>
             <p className="mt-3 text-sm text-mist">{facts.area}</p>
-            <p className="mt-2 text-sm text-mist">{facts.travelFee}</p>
             <WhatsAppLink
               href={waLink(messages.contato)}
               className="mt-4 inline-flex text-sm font-semibold text-accent underline decoration-accent/40 underline-offset-4"

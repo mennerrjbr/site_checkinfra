@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom"
-import { HoursNote } from "../components/HoursNote.tsx"
 import { IconAccess, IconAlarm, IconCamera, IconWhatsApp } from "../components/Icons.tsx"
 import { PlanCards } from "../components/PlanCards.tsx"
 import { Seo } from "../components/Seo.tsx"
@@ -15,7 +14,7 @@ const steps = [
   },
   {
     title: "Visita agendada",
-    text: "A visita técnica é agendada. Fora de Nova Iguaçu, há taxa de deslocamento.",
+    text: "A visita técnica é agendada.",
   },
   {
     title: "Instalação Intelbras",
@@ -38,12 +37,13 @@ export function Home() {
           <p className="text-sm font-semibold text-accent">
             {facts.partner} · {facts.since}
           </p>
-          <h1 className="mt-4 max-w-3xl text-4xl font-semibold leading-[1.1] tracking-tight md:text-6xl">
-            Segurança eletrônica em {company.city}
+          <h1 className="mt-4 max-w-4xl text-3xl font-semibold leading-[1.15] tracking-tight sm:text-5xl">
+            SEGURANÇA SEM LIMITES,{" "}
+            <span className="mt-1 block">PROTEÇÃO SOB MEDIDA.</span>
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-mist">
-            Câmeras, alarmes e controle de acesso com equipamentos Intelbras. Redes e a parte
-            elétrica entram como apoio desses sistemas.
+            Câmeras, alarmes e controle de acesso com equipamentos Intelbras, em {company.area}.
+            Redes e a parte elétrica entram como apoio desses sistemas.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <WhatsAppLink href={waLink(messages.home)} className={primaryButtonClass}>
@@ -121,18 +121,35 @@ export function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-5 pb-16">
-        <HoursNote />
-      </section>
-
       <section className="border-t border-white/10">
         <div className="mx-auto max-w-6xl px-5 py-16 md:py-20">
           <h2 className="text-3xl font-semibold tracking-tight">Clientes que confiam</h2>
-          <ul className="mt-8 grid gap-4 md:grid-cols-2">
+          <ul className="mt-8 grid gap-4 lg:grid-cols-2">
             {clients.map((client) => (
-              <li key={client.name} className="rounded-3xl border border-white/10 bg-navy-2 p-6">
-                <h3 className="text-xl font-semibold">{client.name}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-mist">{client.detail}</p>
+              <li
+                key={client.name}
+                className="flex flex-col rounded-3xl border border-white/10 bg-navy-2 p-6"
+              >
+                <div className="flex items-center gap-4">
+                  <img
+                    src={client.logo}
+                    alt={client.name}
+                    width={512}
+                    height={512}
+                    className="h-16 w-16 shrink-0 rounded-2xl bg-white object-contain p-1"
+                  />
+                  <div>
+                    <p className="text-xs font-semibold tracking-wide text-accent">Cliente</p>
+                    <h3 className="text-lg font-semibold text-white">{client.name}</h3>
+                  </div>
+                </div>
+                <blockquote className="mt-5 flex-1 border-l-2 border-accent pl-4 text-sm leading-relaxed text-mist">
+                  <p>{client.quote}</p>
+                </blockquote>
+                <footer className="mt-5 border-t border-white/10 pt-4">
+                  <p className="text-sm font-semibold text-white">{client.author}</p>
+                  <p className="text-sm text-muted">{client.role}</p>
+                </footer>
               </li>
             ))}
           </ul>

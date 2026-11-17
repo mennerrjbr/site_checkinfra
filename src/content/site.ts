@@ -15,7 +15,6 @@ export const facts = {
   partner: "Parceiro Intelbras",
   equipment: "Somente equipamentos Intelbras",
   area: company.area,
-  travelFee: "Fora de Nova Iguaçu, a visita tem taxa de deslocamento.",
   analysis: "Análise de segurança gratuita",
   owner: "A CheckInfra é operada pelo proprietário.",
   history:
@@ -54,7 +53,6 @@ export const messages = {
 export const sharedPlanTerms = [
   "Contrato de 12 meses",
   "Peças cobradas à parte",
-  "Taxa de deslocamento fora de Nova Iguaçu",
   "Atendimento em horário comercial",
 ] as const
 
@@ -128,9 +126,9 @@ export type PageMeta = {
 export const pages = {
   home: {
     path: "/",
-    title: "CheckInfra | Segurança eletrônica em Nova Iguaçu",
+    title: "CheckInfra | Segurança sem limites, proteção sob medida",
     description:
-      "Câmeras, alarmes e controle de acesso com equipamentos Intelbras em Nova Iguaçu e região. Análise de segurança gratuita pelo WhatsApp.",
+      "Segurança sem limites, proteção sob medida. Câmeras, alarmes e controle de acesso com equipamentos Intelbras em Nova Iguaçu e região. Análise de segurança gratuita.",
     robots: "index,follow",
     crumb: "Início",
   },
@@ -294,7 +292,7 @@ export const servicePages: Record<"cameras" | "alarmes" | "acesso", ServicePageC
     solutionTitle: "O que a CheckInfra faz",
     solution: [
       "A entrada é uma análise de segurança gratuita, pedida pelo WhatsApp.",
-      "A visita técnica é agendada. Fora de Nova Iguaçu, a visita tem taxa de deslocamento.",
+      "A visita técnica é agendada.",
       "O sistema de câmeras é instalado com equipamentos Intelbras.",
     ],
     includedTitle: "O que está incluído nesse atendimento",
@@ -338,7 +336,7 @@ export const servicePages: Record<"cameras" | "alarmes" | "acesso", ServicePageC
     solutionTitle: "O que a CheckInfra faz",
     solution: [
       "A entrada é uma análise de segurança gratuita, pedida pelo WhatsApp.",
-      "A visita técnica é agendada. Fora de Nova Iguaçu, a visita tem taxa de deslocamento.",
+      "A visita técnica é agendada.",
       "O alarme é instalado com equipamentos Intelbras.",
     ],
     includedTitle: "O que está incluído nesse atendimento",
@@ -382,7 +380,7 @@ export const servicePages: Record<"cameras" | "alarmes" | "acesso", ServicePageC
     solutionTitle: "O que a CheckInfra faz",
     solution: [
       "A entrada é uma análise de segurança gratuita, pedida pelo WhatsApp.",
-      "A visita técnica é agendada. Fora de Nova Iguaçu, a visita tem taxa de deslocamento.",
+      "A visita técnica é agendada.",
       "O controle de acesso é instalado com equipamentos Intelbras.",
     ],
     includedTitle: "O que está incluído nesse atendimento",
@@ -407,12 +405,22 @@ export const servicePages: Record<"cameras" | "alarmes" | "acesso", ServicePageC
 
 export const clients = [
   {
-    name: "Creche Gente Curiosa",
-    detail: "Cliente de referência, com contrato de manutenção.",
-  },
-  {
     name: "MLB Assessoria Contábil",
     detail: "Cliente atual de TI.",
+    logo: "/clients/mlb-assessoria-contabil.png",
+    quote:
+      "Nossa parceria com a Checkinfra já dura mais de 3 anos e transformou a nossa operação. Eles realizaram uma reestruturação completa da nossa TI, implementando ferramentas colaborativas e soluções integradas de Inteligência Artificial. Com o novo ecossistema de compartilhamento de arquivos — que garante segurança absoluta e alta disponibilidade — a produtividade e a confiança da nossa equipe deram um salto exponencial.",
+    author: "Mirian Neves",
+    role: "Direção - MLB Assessoria Contábil",
+  },
+  {
+    name: "Creche Gente Curiosa",
+    detail: "Cliente de referência, com contrato de manutenção.",
+    logo: "/clients/creche-gente-curiosa.png",
+    quote:
+      "Antes da Checkinfra, sofríamos muito com a falta de suporte técnico. Hoje, nossas solicitações são resolvidas sempre dentro do prazo programado e contamos com uma manutenção preventiva rigorosa. O maior diferencial é a entrega completa da infraestrutura: não precisamos mais procurar eletricistas à parte para implementar nossos projetos de segurança eletrônica. Eles resolvem tudo de ponta a ponta com muita competência.",
+    author: "Roselene Nascimento",
+    role: "Direção - Creche Gente Curiosa",
   },
 ] as const
 

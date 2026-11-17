@@ -19,7 +19,7 @@ export function Sobre() {
         <p>{facts.history}</p>
         <p>{facts.owner}</p>
         <p>
-          A área de atuação é {company.area}. {facts.travelFee}
+          A área de atuação é {company.area}.
         </p>
         <p>{facts.intelbras}</p>
         <p>

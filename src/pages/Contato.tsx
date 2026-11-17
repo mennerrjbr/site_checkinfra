@@ -29,7 +29,6 @@ export function Contato() {
         <div className="space-y-4 text-sm leading-relaxed text-mist">
           <h2 className="text-2xl font-semibold tracking-tight text-white">Região</h2>
           <p>{facts.area}</p>
-          <p>{facts.travelFee}</p>
           <p>
             {company.legalName}
             <br />

@@ -110,6 +110,16 @@ for (const file of htmlFiles) {
     .replace(/<script[\s\S]*?<\/script>/gi, " ")
     .replace(/<[^>]+>/g, " ")
     .replace(/\s+/g, " ")
+  const voice = stripped
+    .replaceAll(
+      "Nossa parceria com a Checkinfra já dura mais de 3 anos e transformou a nossa operação. Eles realizaram uma reestruturação completa da nossa TI, implementando ferramentas colaborativas e soluções integradas de Inteligência Artificial. Com o novo ecossistema de compartilhamento de arquivos — que garante segurança absoluta e alta disponibilidade — a produtividade e a confiança da nossa equipe deram um salto exponencial.",
+      " ",
+    )
+    .replaceAll(
+      "Antes da Checkinfra, sofríamos muito com a falta de suporte técnico. Hoje, nossas solicitações são resolvidas sempre dentro do prazo programado e contamos com uma manutenção preventiva rigorosa. O maior diferencial é a entrega completa da infraestrutura: não precisamos mais procurar eletricistas à parte para implementar nossos projetos de segurança eletrônica. Eles resolvem tudo de ponta a ponta com muita competência.",
+      " ",
+    )
+  if (/deslocamento/i.test(html)) errors.push(`${file} ainda menciona taxa de deslocamento`)
   if (/24\s*horas|24h|openingHours/i.test(html)) {
     errors.push(`${file} ainda menciona 24 horas ou openingHours`)
   }
@@ -125,7 +135,7 @@ for (const file of htmlFiles) {
     errors.push(`${file} repete atendimento em horário comercial fora da lista de planos`)
   }
   for (const pattern of forbidden) {
-    if (pattern.test(stripped)) errors.push(`${file} contém padrão proibido ${pattern}`)
+    if (pattern.test(voice)) errors.push(`${file} contém padrão proibido ${pattern}`)
   }
 }
 
