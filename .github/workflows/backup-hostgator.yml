@@ -36,7 +36,7 @@ jobs:
             exit 1
           fi
 
-          mkdir -p ./backup/checkinfra.com.br
+          mkdir -p ./backup/public_html
 
           # Settings are loaded before connect. The mirror is download-only:
           # do not add --reverse/-R, put, rm, or mv.
@@ -50,7 +50,7 @@ jobs:
           set ftp:passive-mode true
           set ftp:prefer-epsv false
           set dns:order "inet"
-          set net:timeout 60
+          set net:timeout 120
           set net:max-retries 2
           set net:reconnect-interval-base 5
           EOF
@@ -80,78 +80,21 @@ jobs:
             return "$status"
           }
 
-          echo "Read-only listing of the FTP login directory:"
-          run_lftp "cls -la; bye" || true
-          echo "Read-only names in the parent directory:"
-          run_lftp "cls -1 .. > /tmp/parent-names.txt; bye" || true
-          if [ -f /tmp/parent-names.txt ]; then
-            sed -i 's/\r$//' /tmp/parent-names.txt
-            parent_count="$(grep -c . /tmp/parent-names.txt || true)"
-            echo "Parent entry count: ${parent_count}"
-            if [ "${parent_count}" -le 40 ]; then
-              sed 's/^/  /' /tmp/parent-names.txt
-            else
-              echo "Parent has many entries; showing likely site names only."
-              grep -E 'checkinfra|public_html|^www$|htdocs|httpdocs' /tmp/parent-names.txt || true
-            fi
-          fi
+          echo "Read-only top-level listing of FTP root:"
+          run_lftp "cls -la /; bye" || true
 
-          # /checkinfra.com.br is the documented site folder. Older deploys
-          # used public_html. Try those, then the login directory itself.
-          try_mirror() {
-            local remote="$1"
-            local extra="${2:-}"
-            local status
-            local count
-            echo "Attempting download-only mirror of ${remote}"
-            if [ -n "$extra" ]; then
-              run_lftp "mirror --verbose --parallel=4 ${extra} ${remote} ./backup/checkinfra.com.br/; bye" && status=0 || status=$?
-            else
-              run_lftp "mirror --verbose --parallel=4 ${remote} ./backup/checkinfra.com.br/; bye" && status=0 || status=$?
-            fi
-            count="$(find ./backup/checkinfra.com.br -type f | wc -l | tr -d '[:space:]')"
-            echo "Local file count after ${remote}: ${count}"
-            if [ "$count" -gt 0 ] && [ "$status" -ne 0 ]; then
-              echo "Mirror of ${remote} downloaded files but failed."
-              exit 1
-            fi
-            if [ "$count" -gt 0 ]; then
-              echo "Selected remote path: ${remote}"
-              return 0
-            fi
-            return 1
-          }
-
-          if try_mirror "/checkinfra.com.br/"; then
-            selected="/checkinfra.com.br/"
-          elif try_mirror "checkinfra.com.br/"; then
-            selected="checkinfra.com.br/"
-          elif try_mirror "public_html/"; then
-            selected="public_html/"
-          elif try_mirror "/public_html/"; then
-            selected="/public_html/"
-          elif try_mirror "www/"; then
-            selected="www/"
-          elif try_mirror "../checkinfra.com.br/"; then
-            selected="../checkinfra.com.br/"
-          elif try_mirror "../public_html/"; then
-            selected="../public_html/"
-          elif try_mirror "../www/"; then
-            selected="../www/"
-          elif try_mirror "./" "--exclude ^mail/ --exclude ^logs/ --exclude ^tmp/ --exclude ^\\.cpanel/ --exclude ^public_ftp/ --exclude ^\\.trash/ --exclude ^\\.spamassassin/"; then
-            selected="./"
-          else
-            echo "No files were downloaded."
+          echo "Starting download-only mirror of / into ./backup/public_html/."
+          if ! run_lftp "mirror --verbose --parallel=4 / ./backup/public_html/; bye"; then
+            echo "Download-only mirror failed."
             exit 1
           fi
 
-          file_count="$(find ./backup/checkinfra.com.br -type f | wc -l | tr -d '[:space:]')"
-          size_bytes="$(du -sb ./backup/checkinfra.com.br | awk '{print $1}')"
-          echo "Downloaded from remote path: ${selected}"
+          file_count="$(find ./backup/public_html -type f | wc -l | tr -d '[:space:]')"
+          size_bytes="$(du -sb ./backup/public_html | awk '{print $1}')"
           echo "Downloaded file count: ${file_count}"
           echo "Downloaded size bytes: ${size_bytes}"
           echo "Top-level entries:"
-          find ./backup/checkinfra.com.br -mindepth 1 -maxdepth 1 -printf '%f\n' | sort
+          find ./backup/public_html -mindepth 1 -maxdepth 1 -printf '%f\n' | sort
           if [ "${file_count}" -eq 0 ]; then
             echo "No files were downloaded."
             exit 1
@@ -170,3 +113,4 @@ jobs:
           path: backup_17_11_26.zip
           retention-days: 7
           if-no-files-found: error
+          include-hidden-files: true
