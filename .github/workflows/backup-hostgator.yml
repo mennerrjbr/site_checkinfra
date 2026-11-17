@@ -15,7 +15,7 @@ permissions:
 jobs:
   backup:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 180
     steps:
       - name: Install lftp
         run: |
@@ -49,7 +49,6 @@ jobs:
           set ftp:ssl-protect-list $2
           set ftp:passive-mode true
           set ftp:prefer-epsv false
-          set ftp:list-options -a
           set dns:order "inet"
           set net:timeout 60
           set net:max-retries 2
@@ -57,32 +56,85 @@ jobs:
           EOF
           }
 
-          mirror_site() {
-            lftp -u "$FTP_USERNAME,$FTP_PASSWORD" "$FTP_SERVER" -e "mirror --verbose --parallel=4 /checkinfra.com.br/ ./backup/checkinfra.com.br/; bye"
+          mode=tls
+          write_rc yes yes
+
+          run_lftp() {
+            local script="$1"
+            local status
+            set +e
+            lftp -u "$FTP_USERNAME,$FTP_PASSWORD" "$FTP_SERVER" -e "$script" > /tmp/lftp.out 2>&1
+            status=$?
+            set -e
+            cat /tmp/lftp.out
+            if [ "$status" -ne 0 ] && [ "$mode" = "tls" ] && grep -qiE 'certificate verification|gnutls|handshake|Login failed|Connection refused|timed out|Could not connect|Name or service not known' /tmp/lftp.out; then
+              echo "TLS FTP failed; falling back to plain FTP without SSL (download-only)."
+              mode=plain
+              write_rc no no
+              set +e
+              lftp -u "$FTP_USERNAME,$FTP_PASSWORD" "$FTP_SERVER" -e "$script" > /tmp/lftp.out 2>&1
+              status=$?
+              set -e
+              cat /tmp/lftp.out
+            fi
+            return "$status"
           }
 
-          echo "Starting download-only FTPS mirror of /checkinfra.com.br/."
-          write_rc yes yes
-          if mirror_site; then
-            echo "FTPS mirror completed."
-          else
-            echo "TLS FTP failed; falling back to plain FTP without SSL (download-only)."
-            write_rc no no
-            if ! mirror_site; then
-              echo "Plain FTP mirror failed. Listing remote root names only."
-              lftp -u "$FTP_USERNAME,$FTP_PASSWORD" "$FTP_SERVER" -e "cls -1; bye" || true
+          echo "Read-only listing of the FTP login directory:"
+          run_lftp "pwd; cls -la; bye" || true
+
+          # /checkinfra.com.br is the documented site folder. Older deploys
+          # used public_html. Try those, then the login directory itself.
+          try_mirror() {
+            local remote="$1"
+            local extra="${2:-}"
+            local status
+            local count
+            echo "Attempting download-only mirror of ${remote}"
+            if [ -n "$extra" ]; then
+              run_lftp "mirror --verbose --parallel=4 ${extra} ${remote} ./backup/checkinfra.com.br/; bye" && status=0 || status=$?
+            else
+              run_lftp "mirror --verbose --parallel=4 ${remote} ./backup/checkinfra.com.br/; bye" && status=0 || status=$?
+            fi
+            count="$(find ./backup/checkinfra.com.br -type f | wc -l | tr -d '[:space:]')"
+            echo "Local file count after ${remote}: ${count}"
+            if [ "$count" -gt 0 ] && [ "$status" -ne 0 ]; then
+              echo "Mirror of ${remote} downloaded files but failed."
               exit 1
             fi
+            if [ "$count" -gt 0 ]; then
+              echo "Selected remote path: ${remote}"
+              return 0
+            fi
+            return 1
+          }
+
+          if try_mirror "/checkinfra.com.br/"; then
+            selected="/checkinfra.com.br/"
+          elif try_mirror "checkinfra.com.br/"; then
+            selected="checkinfra.com.br/"
+          elif try_mirror "public_html/"; then
+            selected="public_html/"
+          elif try_mirror "/public_html/"; then
+            selected="/public_html/"
+          elif try_mirror "www/"; then
+            selected="www/"
+          elif try_mirror "./" "--exclude ^mail/ --exclude ^logs/ --exclude ^tmp/ --exclude ^\\.cpanel/ --exclude ^public_ftp/ --exclude ^\\.trash/ --exclude ^\\.spamassassin/"; then
+            selected="./"
+          else
+            echo "No files were downloaded."
+            exit 1
           fi
 
-          file_count="$(find ./backup/checkinfra.com.br -type f | wc -l)"
+          file_count="$(find ./backup/checkinfra.com.br -type f | wc -l | tr -d '[:space:]')"
           size_bytes="$(du -sb ./backup/checkinfra.com.br | awk '{print $1}')"
+          echo "Downloaded from remote path: ${selected}"
           echo "Downloaded file count: ${file_count}"
           echo "Downloaded size bytes: ${size_bytes}"
           echo "Top-level entries:"
           find ./backup/checkinfra.com.br -mindepth 1 -maxdepth 1 -printf '%f\n' | sort
           if [ "${file_count}" -eq 0 ]; then
-            echo "No files were downloaded from /checkinfra.com.br/."
+            echo "No files were downloaded."
             exit 1
           fi
 
