@@ -101,7 +101,6 @@ export function Layout() {
             <p className="mt-4 text-sm leading-relaxed text-mist">
               Segurança eletrônica em {company.area}. {facts.partner}. {facts.equipment}.
             </p>
-            <p className="mt-4 text-sm leading-relaxed text-muted">{facts.footerHours}</p>
           </div>
           <div>
             <h2 className="text-sm font-semibold tracking-wide text-white">Páginas</h2>
@@ -125,8 +124,7 @@ export function Layout() {
           </div>
           <div>
             <h2 className="text-sm font-semibold tracking-wide text-white">Contato</h2>
-            <p className="mt-3 text-sm leading-relaxed text-mist">{facts.hours}</p>
-            <p className="mt-2 text-sm text-mist">{facts.area}</p>
+            <p className="mt-3 text-sm text-mist">{facts.area}</p>
             <p className="mt-2 text-sm text-mist">{facts.travelFee}</p>
             <WhatsAppLink
               href={waLink(messages.contato)}

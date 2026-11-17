@@ -15,7 +15,7 @@ const steps = [
   },
   {
     title: "Visita agendada",
-    text: "A visita técnica é marcada em horário comercial. Fora de Nova Iguaçu, há taxa de deslocamento.",
+    text: "A visita técnica é agendada. Fora de Nova Iguaçu, há taxa de deslocamento.",
   },
   {
     title: "Instalação Intelbras",
@@ -114,7 +114,7 @@ export function Home() {
       <section className="mx-auto max-w-6xl px-5 py-16 md:py-20">
         <h2 className="text-3xl font-semibold tracking-tight">Planos de manutenção</h2>
         <p className="mt-3 max-w-2xl text-base leading-relaxed text-mist">
-          Contrato de 12 meses. Cada plano inclui o anterior. Peças cobradas à parte. Atendimento em horário comercial.
+          Contrato de 12 meses. Cada plano inclui o anterior. Peças cobradas à parte.
         </p>
         <div className="mt-8">
           <PlanCards showPageLink />
@@ -144,7 +144,7 @@ export function Home() {
           <div>
             <h2 className="text-3xl font-semibold tracking-tight">Peça a análise gratuita</h2>
             <p className="mt-3 max-w-xl text-base leading-relaxed text-mist">
-              O canal é o WhatsApp {company.phoneDisplay}. {facts.hours}
+              O canal é o WhatsApp {company.phoneDisplay}.
             </p>
           </div>
           <WhatsAppLink href={waLink(messages.home)} className={primaryButtonClass}>

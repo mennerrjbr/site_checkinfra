@@ -19,14 +19,13 @@ export function Sobre() {
         <p>{facts.history}</p>
         <p>{facts.owner}</p>
         <p>
-          O atendimento é em {company.area}. {facts.hours} {facts.travelFee}
+          A área de atuação é {company.area}. {facts.travelFee}
         </p>
         <p>{facts.intelbras}</p>
         <p>
           O serviço principal é segurança eletrônica: câmeras (CFTV), alarmes e controle de acesso.
           {` ${facts.support}`}
         </p>
-        <p>{facts.systems}</p>
         <h2 className="pt-4 text-2xl font-semibold tracking-tight text-white">Clientes que confiam</h2>
         <ul className="space-y-3">
           {clients.map((client) => (

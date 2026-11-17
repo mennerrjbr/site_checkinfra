@@ -94,11 +94,6 @@ const forbidden = [
   /openingHours/i,
 ]
 
-const allowed24 = [
-  "Os sistemas instalados seguem em funcionamento 24 horas.",
-  "Funcionamento dos sistemas: 24 horas.",
-]
-
 for (const file of htmlFiles) {
   const html = readFileSync(file, "utf8")
   combined += `\n${html}`
@@ -115,9 +110,20 @@ for (const file of htmlFiles) {
     .replace(/<script[\s\S]*?<\/script>/gi, " ")
     .replace(/<[^>]+>/g, " ")
     .replace(/\s+/g, " ")
-  let rest = stripped
-  for (const phrase of allowed24) rest = rest.replaceAll(phrase, " ")
-  if (/24/.test(rest)) errors.push(`menção a 24 fora da frase permitida em ${file}`)
+  if (/24\s*horas|24h|openingHours/i.test(html)) {
+    errors.push(`${file} ainda menciona 24 horas ou openingHours`)
+  }
+  if (/MLB(?! Assessoria Contábil)/.test(html)) {
+    errors.push(`${file} menciona MLB sem o nome completo`)
+  }
+  const commercialHours = html.match(/Atendimento em horário comercial/g) ?? []
+  const planListPage = /\/dist\/index\.html$/.test(file) || /\/planos\/index\.html$/.test(file)
+  if (planListPage && commercialHours.length !== 1) {
+    errors.push(`${file} deve ter a condição de horário comercial uma vez, tem ${commercialHours.length}`)
+  }
+  if (!planListPage && commercialHours.length > 0) {
+    errors.push(`${file} repete atendimento em horário comercial fora da lista de planos`)
+  }
   for (const pattern of forbidden) {
     if (pattern.test(stripped)) errors.push(`${file} contém padrão proibido ${pattern}`)
   }

@@ -1,4 +1,3 @@
-import { HoursNote } from "../components/HoursNote.tsx"
 import { IconWhatsApp } from "../components/Icons.tsx"
 import { PageIntro } from "../components/PageIntro.tsx"
 import { Seo } from "../components/Seo.tsx"
@@ -28,8 +27,7 @@ export function Contato() {
           </WhatsAppLink>
         </div>
         <div className="space-y-4 text-sm leading-relaxed text-mist">
-          <h2 className="text-2xl font-semibold tracking-tight text-white">Atendimento</h2>
-          <p>{facts.hours}</p>
+          <h2 className="text-2xl font-semibold tracking-tight text-white">Região</h2>
           <p>{facts.area}</p>
           <p>{facts.travelFee}</p>
           <p>
@@ -37,9 +35,6 @@ export function Contato() {
             <br />
             CNPJ {company.cnpj}
           </p>
-        </div>
-        <div className="lg:col-span-2">
-          <HoursNote />
         </div>
       </section>
     </>

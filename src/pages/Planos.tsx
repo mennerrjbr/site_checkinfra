@@ -14,7 +14,7 @@ export function Planos() {
         meta={pages.planos}
         eyebrow="Manutenção"
         title="Planos de manutenção"
-        lede="Três contratos de 12 meses. Cada plano inclui o anterior. Peças são cobradas à parte. O atendimento é em horário comercial."
+        lede="Três contratos de 12 meses. Cada plano inclui o anterior. Peças são cobradas à parte."
       />
       <section className="mx-auto max-w-6xl px-5 pb-16">
         <PlanCards />

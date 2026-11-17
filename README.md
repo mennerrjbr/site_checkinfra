@@ -30,7 +30,7 @@ npm run preview
 
 ## Planos de manutenção
 
-Contrato de 12 meses. Peças à parte. Atendimento em horário comercial. Cada plano inclui o anterior.
+Contrato de 12 meses. Peças à parte. Cada plano inclui o anterior. Na lista comum dos planos, a condição contratual é atendimento em horário comercial.
 
 - Essencial, R$ 180/mês: até 8 câmeras ou 1 sistema de alarme. Visita preventiva a cada 3 meses. Suporte remoto.
 - Padrão, R$ 350/mês: inclui o Essencial, com câmeras (até 16) e alarme. Visita preventiva mensal. Mão de obra corretiva incluída.

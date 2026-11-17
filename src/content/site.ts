@@ -15,10 +15,6 @@ export const facts = {
   partner: "Parceiro Intelbras",
   equipment: "Somente equipamentos Intelbras",
   area: company.area,
-  hours: "Atendimento em horário comercial, com visitas técnicas agendadas.",
-  systems:
-    "Os sistemas instalados seguem em funcionamento 24 horas. O atendimento da CheckInfra é em horário comercial, com visitas técnicas agendadas.",
-  footerHours: "Funcionamento dos sistemas: 24 horas. Atendimento: horário comercial.",
   travelFee: "Fora de Nova Iguaçu, a visita tem taxa de deslocamento.",
   analysis: "Análise de segurança gratuita",
   owner: "A CheckInfra é operada pelo proprietário.",
@@ -142,7 +138,7 @@ export const pages = {
     path: "/planos",
     title: "Planos de manutenção | CheckInfra",
     description:
-      "Planos Essencial, Padrão e Completo. Contrato de 12 meses, peças à parte e atendimento em horário comercial em Nova Iguaçu e região.",
+      "Planos Essencial, Padrão e Completo. Contrato de 12 meses e peças à parte, em Nova Iguaçu e região.",
     robots: "index,follow",
     crumb: "Planos",
   },
@@ -150,7 +146,7 @@ export const pages = {
     path: "/cameras",
     title: "Câmeras e CFTV em Nova Iguaçu | CheckInfra",
     description:
-      "Instalação de câmeras (CFTV) com equipamentos Intelbras em Nova Iguaçu e região. Análise de segurança gratuita. Visitas em horário comercial.",
+      "Instalação de câmeras (CFTV) com equipamentos Intelbras em Nova Iguaçu e região. Análise de segurança gratuita pelo WhatsApp.",
     robots: "index,follow",
     crumb: "Câmeras",
   },
@@ -158,7 +154,7 @@ export const pages = {
     path: "/alarmes",
     title: "Alarmes em Nova Iguaçu | CheckInfra",
     description:
-      "Instalação de alarmes com equipamentos Intelbras em Nova Iguaçu e região. Análise de segurança gratuita. Atendimento em horário comercial.",
+      "Instalação de alarmes com equipamentos Intelbras em Nova Iguaçu e região. Análise de segurança gratuita pelo WhatsApp.",
     robots: "index,follow",
     crumb: "Alarmes",
   },
@@ -182,7 +178,7 @@ export const pages = {
     path: "/contato",
     title: "Contato | CheckInfra",
     description:
-      "Fale com a CheckInfra pelo WhatsApp (21) 97536-9597. Atendimento em horário comercial em Nova Iguaçu e região. Visitas técnicas agendadas.",
+      "Fale com a CheckInfra pelo WhatsApp (21) 97536-9597. Nova Iguaçu e região.",
     robots: "index,follow",
     crumb: "Contato",
   },
@@ -298,7 +294,7 @@ export const servicePages: Record<"cameras" | "alarmes" | "acesso", ServicePageC
     solutionTitle: "O que a CheckInfra faz",
     solution: [
       "A entrada é uma análise de segurança gratuita, pedida pelo WhatsApp.",
-      "A visita técnica é agendada em horário comercial. Fora de Nova Iguaçu, a visita tem taxa de deslocamento.",
+      "A visita técnica é agendada. Fora de Nova Iguaçu, a visita tem taxa de deslocamento.",
       "O sistema de câmeras é instalado com equipamentos Intelbras.",
     ],
     includedTitle: "O que está incluído nesse atendimento",
@@ -342,7 +338,7 @@ export const servicePages: Record<"cameras" | "alarmes" | "acesso", ServicePageC
     solutionTitle: "O que a CheckInfra faz",
     solution: [
       "A entrada é uma análise de segurança gratuita, pedida pelo WhatsApp.",
-      "A visita técnica é agendada em horário comercial. Fora de Nova Iguaçu, a visita tem taxa de deslocamento.",
+      "A visita técnica é agendada. Fora de Nova Iguaçu, a visita tem taxa de deslocamento.",
       "O alarme é instalado com equipamentos Intelbras.",
     ],
     includedTitle: "O que está incluído nesse atendimento",
@@ -386,7 +382,7 @@ export const servicePages: Record<"cameras" | "alarmes" | "acesso", ServicePageC
     solutionTitle: "O que a CheckInfra faz",
     solution: [
       "A entrada é uma análise de segurança gratuita, pedida pelo WhatsApp.",
-      "A visita técnica é agendada em horário comercial. Fora de Nova Iguaçu, a visita tem taxa de deslocamento.",
+      "A visita técnica é agendada. Fora de Nova Iguaçu, a visita tem taxa de deslocamento.",
       "O controle de acesso é instalado com equipamentos Intelbras.",
     ],
     includedTitle: "O que está incluído nesse atendimento",
@@ -469,7 +465,7 @@ export function jsonLdFor(pathname: string): JsonLd {
           priceCurrency: "BRL",
           url: `${company.url}/planos#essencial`,
           description:
-            "R$ 180 por mês. Contrato de 12 meses. Até 8 câmeras ou 1 sistema de alarme. Visita preventiva a cada 3 meses. Suporte remoto. Peças cobradas à parte. Atendimento em horário comercial.",
+            "R$ 180 por mês. Contrato de 12 meses. Até 8 câmeras ou 1 sistema de alarme. Visita preventiva a cada 3 meses. Suporte remoto. Peças cobradas à parte.",
         },
         {
           "@type": "Offer",
@@ -478,14 +474,14 @@ export function jsonLdFor(pathname: string): JsonLd {
           priceCurrency: "BRL",
           url: `${company.url}/planos#padrao`,
           description:
-            "R$ 350 por mês. Contrato de 12 meses. Inclui o Essencial, com até 16 câmeras e alarme. Visita preventiva mensal. Mão de obra corretiva incluída. Peças cobradas à parte. Atendimento em horário comercial.",
+            "R$ 350 por mês. Contrato de 12 meses. Inclui o Essencial, com até 16 câmeras e alarme. Visita preventiva mensal. Mão de obra corretiva incluída. Peças cobradas à parte.",
         },
         {
           "@type": "Offer",
           name: "Plano Completo",
           url: `${company.url}/planos#completo`,
           description:
-            "A partir de R$ 550 por mês. Contrato de 12 meses. Inclui o Padrão, com até 32 câmeras (16 a mais que o Padrão), alarme, controle de acesso e rede. Visita preventiva mensal. Prioridade no atendimento. O valor sobe em relação ao Padrão porque inclui o controle de acesso; o preço final depende do controle de acesso do local. Peças cobradas à parte. Atendimento em horário comercial.",
+            "A partir de R$ 550 por mês. Contrato de 12 meses. Inclui o Padrão, com até 32 câmeras (16 a mais que o Padrão), alarme, controle de acesso e rede. Visita preventiva mensal. Prioridade no atendimento. O valor sobe em relação ao Padrão porque inclui o controle de acesso; o preço final depende do controle de acesso do local. Peças cobradas à parte.",
         },
       ],
     },
