@@ -30,7 +30,8 @@ export function Sobre() {
         <ul className="space-y-3">
           {clients.map((client) => (
             <li key={client.name}>
-              <span className="font-semibold text-white">{client.name}.</span> {client.detail}
+              <span className="font-semibold text-white">{client.name}.</span>
+              {client.detail ? ` ${client.detail}` : null}
             </li>
           ))}
         </ul>

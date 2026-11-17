@@ -124,7 +124,7 @@ export function Home() {
       <section className="border-t border-white/10">
         <div className="mx-auto max-w-6xl px-5 py-16 md:py-20">
           <h2 className="text-3xl font-semibold tracking-tight">Clientes que confiam</h2>
-          <ul className="mt-8 grid gap-4 lg:grid-cols-2">
+          <ul className="mt-8 grid gap-4 lg:grid-cols-3">
             {clients.map((client) => (
               <li
                 key={client.name}
@@ -149,6 +149,17 @@ export function Home() {
                 <footer className="mt-5 border-t border-white/10 pt-4">
                   <p className="text-sm font-semibold text-white">{client.author}</p>
                   <p className="text-sm text-muted">{client.role}</p>
+                  {"instagram" in client ? (
+                    <a
+                      href={client.instagram}
+                      className="mt-2 inline-flex min-h-11 items-center text-sm font-semibold text-accent underline decoration-accent/40 underline-offset-4"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      @deck.65
+                      <span className="sr-only"> (abre o Instagram)</span>
+                    </a>
+                  ) : null}
                 </footer>
               </li>
             ))}
