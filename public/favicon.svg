@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="checkinfra">
+  <rect width="64" height="64" rx="12" fill="#0B1426"/>
+  <g transform="translate(8.2 8.6) scale(0.0715)">
+    <polygon fill="#00b9f2" points="0 376.46 166.36 451.51 664.19 188.84 664.19 297.66 166.36 563.34 0 483.29 0 376.46"/>
+<polygon fill="#fff" points="0 0 0 107.86 166.36 179.21 280.54 122.39 0 0"/>
+<polygon fill="#fff" points="0 188.28 166.36 263.33 664.19 .66 664.19 109.48 166.36 372 0 295.11 0 188.28"/>
+<polygon fill="#fff" points="244.97 601.17 664.19 376.09 664.19 484.91 356.49 654.83 244.97 601.17"/>
+  </g>
+</svg>

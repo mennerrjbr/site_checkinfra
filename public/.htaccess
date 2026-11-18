@@ -1,0 +1,78 @@
+# CheckInfra — Apache
+# Canonical: https://www.checkinfra.com.br
+# Each route is a real directory with index.html (prerender).
+# Known paths are rewritten to that file. Unknown paths return HTTP 404
+# with /404.html (they are not served as the homepage).
+# Hashed files under /assets use a long cache. HTML is not cached.
+
+Options -Indexes -MultiViews
+DirectorySlash Off
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # HTTPS + host www.checkinfra.com.br
+  RewriteCond %{HTTPS} !=on [OR]
+  RewriteCond %{HTTP_HOST} !^www\.checkinfra\.com\.br$ [NC]
+  RewriteRule ^ https://www.checkinfra.com.br%{REQUEST_URI} [L,R=301]
+
+  # Visible /index.html and /rota/index.html -> clean URL.
+  # REDIRECT_STATUS skips this after an internal rewrite, so it does not loop.
+  RewriteCond %{ENV:REDIRECT_STATUS} ^$
+  RewriteRule ^index\.html$ / [R=301,L]
+
+  RewriteCond %{ENV:REDIRECT_STATUS} ^$
+  RewriteRule ^(.+)/index\.html$ /$1 [R=301,L]
+
+  # Real files (assets, icons, robots, sitemap, favicon) are served as-is.
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
+
+  # Drop the trailing slash on page URLs.
+  RewriteCond %{ENV:REDIRECT_STATUS} ^$
+  RewriteCond %{REQUEST_URI} ^/(.+)/$
+  RewriteRule ^ /%1 [R=301,L]
+
+  # Home. Without this, "/" is not a file and the 404 rule would catch it.
+  RewriteRule ^$ /index.html [L]
+
+  # Prerendered routes -> their own index.html
+  RewriteRule ^planos$ /planos/index.html [L]
+  RewriteRule ^cameras$ /cameras/index.html [L]
+  RewriteRule ^alarmes$ /alarmes/index.html [L]
+  RewriteRule ^controle-de-acesso$ /controle-de-acesso/index.html [L]
+  RewriteRule ^sobre$ /sobre/index.html [L]
+  RewriteRule ^contato$ /contato/index.html [L]
+  RewriteRule ^privacidade$ /privacidade/index.html [L]
+
+  # Unknown paths: 404. The body is the prerendered not-found page.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^ - [R=404,L]
+</IfModule>
+
+ErrorDocument 404 /404.html
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+
+  SetEnvIf Request_URI "^/assets/" checkinfra_asset
+  Header set Cache-Control "public, max-age=31536000, immutable" env=checkinfra_asset
+
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+<IfModule mod_filter.c>
+  <IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/plain application/javascript application/json image/svg+xml
+  </IfModule>
+</IfModule>
+
+<IfModule mod_mime.c>
+  AddType image/svg+xml .svg
+  AddType application/javascript .js
+</IfModule>
