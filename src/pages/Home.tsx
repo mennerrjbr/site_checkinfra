@@ -39,7 +39,9 @@ export function Home() {
           </p>
           <h1 className="mt-4 max-w-4xl text-3xl font-semibold leading-[1.15] tracking-tight sm:text-5xl">
             SEGURANÇA SEM LIMITES,{" "}
-            <span className="mt-1 block">PROTEÇÃO SOB MEDIDA.</span>
+            <span className="mt-1 block">
+              PROTEÇÃO <span className="text-accent">SOB MEDIDA.</span>
+            </span>
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-mist">
             Câmeras, alarmes e controle de acesso com equipamentos Intelbras, em {company.area}.
@@ -149,17 +151,6 @@ export function Home() {
                 <footer className="mt-5 border-t border-white/10 pt-4">
                   <p className="text-sm font-semibold text-white">{client.author}</p>
                   <p className="text-sm text-muted">{client.role}</p>
-                  {"instagram" in client ? (
-                    <a
-                      href={client.instagram}
-                      className="mt-2 inline-flex min-h-11 items-center text-sm font-semibold text-accent underline decoration-accent/40 underline-offset-4"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      @deck.65
-                      <span className="sr-only"> (abre o Instagram)</span>
-                    </a>
-                  ) : null}
                 </footer>
               </li>
             ))}

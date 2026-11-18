@@ -430,7 +430,6 @@ export const clients = [
       "Fizemos nosso sistema de câmeras com a empresa Checkinfra e só temos a agradecer. O orçamento foi justo e a atenção, do momento do orçamento até o pós-venda, é muito boa. Em breve pretendemos aumentar a quantidade de câmeras e já sabemos quem vai cuidar disso... Checkinfra! Gratidão... 🏆",
     author: "Allan Reis",
     role: "Direção - Deck65 Depósito & Tabacaria",
-    instagram: "https://www.instagram.com/deck.65/",
   },
 ] as const
 
