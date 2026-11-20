@@ -4,6 +4,11 @@
 The login directory is the site root (public_html). Protected paths and
 anything present in dist/ are never deleted. The plan is printed before
 any deletion.
+
+wa/ is protected as a whole. The deploy workflow generates wa/config.php
+after the build, and the relay creates wa/.seen.json and wa/.errors.json
+on the server. Those files are not in dist/ when this cleanup runs, so a
+dist-membership check would delete the live config and the dedupe store.
 """
 
 from __future__ import annotations
@@ -17,7 +22,7 @@ from pathlib import Path
 DIST = Path(os.environ.get("CLEANUP_DIST", "dist"))
 MAX_DELETES = 200
 
-PROTECTED_DIR_PREFIXES = ("cgi-bin", ".well-known")
+PROTECTED_DIR_PREFIXES = ("cgi-bin", ".well-known", "wa")
 PROTECTED_BASENAMES = {
     ".ftpquota",
     ".htaccess",
@@ -297,6 +302,12 @@ def self_test() -> None:
         "cameras/index.html",
         "clients/deck65.png",
         "old/leftover.txt",
+        "wa/hook.php",
+        "wa/.htaccess",
+        "wa/config.php",
+        "wa/.seen.json",
+        "wa/.errors.json",
+        "wa/nested/runtime-only.txt",
     ]
     server_dirs = [
         "assets",
@@ -307,6 +318,8 @@ def self_test() -> None:
         "cameras",
         "clients",
         "old",
+        "wa",
+        "wa/nested",
     ]
     delete_files, keep_files, delete_dirs, keep_dirs = classify(server_files, server_dirs, dist)
     assert delete_files == [
@@ -328,6 +341,20 @@ def self_test() -> None:
     assert "cgi-bin" in keep_dirs
     assert ".well-known" in keep_dirs
     assert "old" in delete_dirs
+    for path in (
+        "wa/hook.php",
+        "wa/.htaccess",
+        "wa/config.php",
+        "wa/.seen.json",
+        "wa/.errors.json",
+        "wa/nested/runtime-only.txt",
+    ):
+        assert path in keep_files, path
+        assert path not in delete_files, path
+    assert "wa" in keep_dirs
+    assert "wa/nested" in keep_dirs
+    assert "wa" not in delete_dirs
+    assert "wa/nested" not in delete_dirs
     assert_safe(delete_files, dist)
     line = parse_list_line("-rw-r--r-- 1 user group 10 Nov 17 21:00 shield-check.svg")
     assert line == ("shield-check.svg", False)

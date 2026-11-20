@@ -2,8 +2,10 @@
 # The login directory is public_html. This job builds dist/ from main,
 # prints every server path it will delete or keep, then deletes only
 # files that are absent from dist and not on the protected list.
-# Protected: cgi-bin/, .well-known/, .ftpquota, .htaccess,
-# .htaccess.phpupgrader*, .ftp-deploy-sync-state-v2.json, and dist/.
+# Protected: cgi-bin/, .well-known/, wa/ (WhatsApp relay, including
+# config.php and server-only runtime files such as .seen.json and
+# .errors.json), .ftpquota, .htaccess, .htaccess.phpupgrader*,
+# .ftp-deploy-sync-state-v2.json, and dist/.
 name: Cleanup old FTP files
 
 on:

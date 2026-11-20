@@ -21,6 +21,8 @@ const routes = [
   "favicon.svg",
   "brand/logo.png",
   "brand/symbol.svg",
+  "wa/hook.php",
+  "wa/.htaccess",
 ]
 
 for (const route of routes) {
@@ -29,6 +31,37 @@ for (const route of routes) {
   } catch {
     errors.push(`arquivo ausente: ${route}`)
   }
+}
+
+for (const secretPath of ["wa/config.php", "public/wa/config.php"]) {
+  const full = secretPath.startsWith("public/") ? resolve(root, secretPath) : resolve(dist, secretPath)
+  try {
+    statSync(full)
+    errors.push(`${secretPath} não deve ir no build (segredos são gerados no deploy)`)
+  } catch {
+    // config.php is produced only by the deploy workflow
+  }
+}
+
+try {
+  const hook = readFileSync(resolve(dist, "wa/hook.php"), "utf8")
+  if (!hook.includes("hash_hmac") || !hook.includes("HTTP_X_HUB_SIGNATURE_256")) {
+    errors.push("wa/hook.php sem verificação de assinatura")
+  }
+  if (!hook.includes("fastcgi_finish_request")) {
+    errors.push("wa/hook.php sem resposta imediata ao webhook")
+  }
+} catch {
+  // absence is already reported above
+}
+
+try {
+  const waAccess = readFileSync(resolve(dist, "wa/.htaccess"), "utf8")
+  if (!waAccess.includes("Require all denied") || !waAccess.includes("hook.php")) {
+    errors.push("wa/.htaccess não restringe o diretório ao hook.php")
+  }
+} catch {
+  // absence is already reported above
 }
 
 const required = [

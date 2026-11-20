@@ -32,6 +32,18 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Self-test WhatsApp config generator
+        run: php .github/scripts/write-wa-config.php --self-test
+
+      # Secrets may be unset. The generator writes empty strings and the relay
+      # fails closed. Do not print the env vars or the generated file.
+      - name: Generate WhatsApp relay config
+        env:
+          WA_META_APP_SECRET: ${{ secrets.WA_META_APP_SECRET }}
+          WA_ROUTINE_WEBHOOK_URL: ${{ secrets.WA_ROUTINE_WEBHOOK_URL }}
+          WA_ROUTINE_AUTH_HEADER: ${{ secrets.WA_ROUTINE_AUTH_HEADER }}
+        run: php .github/scripts/write-wa-config.php dist/wa/config.php
+
       - name: FTP deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -41,6 +53,11 @@ jobs:
           local-dir: ./dist/
           server-dir: ./
           state-name: .ftp-deploy-sync-state-v2.json
+          # Keep dangerous-clean-slate off. It deletes the whole server dir,
+          # including excluded files. These excludes cover the relay's runtime
+          # files (created on the server, never in dist/) so an incremental
+          # sync will not remove them even if a past state file recorded them.
+          # config.php is generated above and must stay deployable.
           exclude: |
             **/.git*
             **/.git*/**
@@ -51,3 +68,5 @@ jobs:
             **/.well-known/**
             .ftpquota
             **/.ftpquota
+            **/.seen.json
+            **/.errors.json
