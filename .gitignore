@@ -13,6 +13,11 @@ dist-ssr
 dist-server
 *.local
 
+# WhatsApp relay: config is generated on deploy; runtime files exist only on the server.
+public/wa/config.php
+public/wa/.seen.json
+public/wa/.errors.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
